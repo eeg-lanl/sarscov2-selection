@@ -79,36 +79,82 @@ dev.off()
 
 require(ggplot2)
 
+pl <- ggplot(data=fit_sm, aes(x=s, y=m)) + geom_bin2d(bins=50, show.legend=F) +
+        scale_fill_continuous(type="viridis") + facet_wrap(~Country) +
+        labs(title=label, subtitle="parameter correlations", x="selection, s", y="migration, m")
+
 pdf(file=paste("correlation-", label, ".pdf", sep=""), width=12, height=10)
-ggplot(data=fit_sm, aes(x=s, y=m)) + geom_bin2d(bins=50, show.legend=F) + 
-    scale_fill_continuous(type="viridis") + facet_wrap(~Country) +
-    labs(title=label, subtitle="parameter correlations", x="selection, s", y="migration, m")
+if (label == "B.1.1.7")
+{
+    pl + ylim(-0.01, 0.08) + xlim(-1, 1)
+} else {
+    pl
+}
 dev.off()
 
 #--------------------------------------------------
 # Distribution of selection coefficients
 #--------------------------------------------------
 
-require(bayesplot)
 require(ggplot2)
-color_scheme_set("gray")
+require(cowplot)
+require(coda)
+
+# medium.com/@jireh/a-clever-use-of-ggplot-internals-bbb168133909
+plot_ci <- function(x)
+{
+    gg_density <- ggplot(data=data.frame(x), aes(x=x)) + geom_density()
+    ci <- HPDinterval(mcmc(x), prob=0.9)
+    mid <- median(x)
+
+    build_object <- ggplot_build(gg_density)
+    x_dens <- build_object$data[[1]]$x
+    y_dens <- build_object$data[[1]]$y
+    index_left <- min(which(x_dens >= ci[1]))
+    index_right <- max(which(x_dens <= ci[2]))
+    index_mid <- which.min(abs(x_dens - mid))
+    y_mid <- y_dens[index_mid]
+
+    gg_density + 
+        geom_area(
+            data=data.frame(
+              x=x_dens[index_left:index_right],
+              y=y_dens[index_left:index_right]), 
+            aes(x=x,y=y), fill="#CCCCCC") +
+        geom_segment(
+            aes(x=mid, xend=mid, y=0, yend=y_mid), 
+            color="#555555")
+}
 
 ### The results for the top-level distribution on selection
 
 s_prior <- fit_df[,c("sgen_prior_mean", "sgen_prior_sd")]
-names(s_prior) <- c("s prior mean", "s prior std dev")
-
 s_prior_samp <- apply(s_prior, 1, function(x) rnorm(n=10, mean=x[1], sd=x[2]))
 s_prior_samp <- data.frame(s=as.vector(s_prior_samp))
 
-pdf(file=paste("selection-", label, ".pdf", sep=""), width=4.5, height=4)
-mcmc_areas(s_prior_samp, prob=0.9) + 
-    labs(title=label, subtitle="distribution of selection coefficients") + 
-    yaxis_ticks(on=F) + yaxis_text(on=F) + xlim(c(-1, 2))
-mcmc_areas(s_prior, prob=0.9) + labs(title=label, subtitle="parameters of selection coefficient distribution")
+p1 <- plot_ci(s_prior$sgen_prior_mean)
+p2 <- plot_ci(s_prior$sgen_prior_sd)
+p3 <- plot_ci(s_prior_samp$s)
+
+more_layers <- list(geom_density(size=1.5),
+                    theme_bw(),
+                    ylab("probability density")
+)
+
+p1 <- p1 + more_layers + xlim(0, 0.5) + xlab("s mean")
+p2 <- p2 + more_layers + xlim(0, 0.5) + xlab("s std dev") + ylab("")
+p3 <- p3 + more_layers + xlim(-0.75, 1.25) + xlab("s") + ylab("")
+
+lab <- list("D614G"=c("A", "B", "C"), "B.1.1.7"=c("D", "E", "F"))
+
+pdf(file=paste("selection-", label, ".pdf", sep=""), width=8, height=2)
+plot_grid(p1, p2, p3, nrow=1, labels=lab[[label]])
 dev.off()
 
 ### For the focal countries
+
+require(bayesplot)
+color_scheme_set("gray")
 
 p <- c("United Kingdom", "Netherlands")
 i <- match(p, places)
@@ -193,4 +239,26 @@ for (place in places)
 {
     print(plot_data[[place]])
 }
+dev.off()
+
+#--------------------------------------------------
+# Compare s for both mutations in each country
+#--------------------------------------------------
+
+require(ggplot2)
+
+# run code above...
+s_b117 <- cat_s
+s_d614g <- cat_s
+dat <- merge(s_d614g, s_b117, by="country")
+
+p <- ggplot(data=dat) + theme_bw() +
+     geom_abline(slope=1, intercept=0, color="gray") +
+     geom_pointrange(aes(x=mid.x, y=mid.y, xmin=low1.x, xmax=high1.x)) +
+     geom_pointrange(aes(x=mid.x, y=mid.y, ymin=low1.y, ymax=high1.y)) +
+     xlab("s for D614G") + ylab("s for B.1.1.7") +
+     coord_cartesian(xlim=c(-0.25, 0.75), ylim=c(-0.25, 0.75))
+
+pdf("s-vs-s.pdf", width=5, height=5)
+p
 dev.off()
