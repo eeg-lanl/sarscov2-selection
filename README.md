@@ -1,11 +1,9 @@
 # sarscov2-selection
 
 This repository contains code for the publication
-"Estimating the strength of selection for new SARS-CoV-2 variants"
-by
-Christiaan H. van Dorp, Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
-
-TODO: medrxiv link
+> *Estimating the strength of selection for new SARS-CoV-2 variants*
+> Christiaan H. van Dorp, Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
+> medRxiv preprint, doi: [10.1101/2021.03.29.21254233](https://doi.org/10.1101/2021.03.29.21254233)
 
 Info on using the code is provided in the readme files in each subdirectory.
 
