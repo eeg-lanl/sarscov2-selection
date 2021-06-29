@@ -9,7 +9,7 @@
 #include <string>
 
 void simulate_sars2mut_model(unsigned long seed, int threads, int J,
-    const std::string & paramFileName);
+    const std::string & paramFileName, double tmax);
 
 
 void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
@@ -20,7 +20,8 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
 void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
     int D, const std::map<std::string, double> & fixedParamMap,
     const std::string & dataFileName, const std::string & paramFileName,
-    const std::string & id, bool timeDepMigr, const std::string & extFoiFileName);
+    const std::string & id, bool timeDepMigr, const std::string & extFoiFileName,
+    bool endTimeProvided, double endTime);
 
 
 

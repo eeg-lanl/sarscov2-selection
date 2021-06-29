@@ -41,6 +41,9 @@ public:
   std::string identifier;
 };
 
+/** remove data with observation time larger than tmax */
+void pruneTimeseries(Timeseries & txs, double tmax);
+
 
 Timeseries load_scalar_data(std::string filename);
 Timeseries load_vector_data(std::string filename);

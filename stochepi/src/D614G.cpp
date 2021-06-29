@@ -19,7 +19,7 @@
 
 
 void simulate_sars2mut_model(unsigned long seed, int threads, int J,
-    const std::string & paramFileName) {
+    const std::string & paramFileName, double tmax) {
   Rng rng(seed);
 
   // import paramter values
@@ -55,7 +55,6 @@ void simulate_sars2mut_model(unsigned long seed, int threads, int J,
   // mutate the special overdispersion parameter
   par[IDX_SIGMA_OD].setNameBoundsPstdAndUnlock("sigma_od", 0.0, 0.1, 1e-4);
 
-  double tmax = par[sarsmodel::t0] + 100;
   double dt = 1.0;
 
   // define model transitions
@@ -100,7 +99,7 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
     const std::string & id) {
   // call more general method with empty filenames for the splines
   filter_sars2mut_model(seed, threads, J, G, M, D, fixedParamMap,
-      dataFileName, paramFileName, id, false, "");
+      dataFileName, paramFileName, id, false, "", false, 0.0);
 }
 
 
@@ -108,10 +107,18 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
 void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
     int D, const std::map<std::string, double> & fixedParamMap,
     const std::string & dataFileName, const std::string & paramFileName,
-    const std::string & id, bool timeDepMigr, const std::string & migrFileName) {
+    const std::string & id, bool timeDepMigr, const std::string & migrFileName,
+    bool endTimeProvided, double endTime) {
   Rng rng(seed);
+
   // import data
   std::vector<Timeseries> txss = load_vector_panel_data(dataFileName);
+  // if an end time is provided, prune the timeseries
+  if ( endTimeProvided ) {
+    for ( auto & txs : txss ) {
+      pruneTimeseries(txs, endTime);
+    }
+  }
 
   for ( auto & txs : txss ) {
     std::cout << txs << std::endl; // take a look at the panel

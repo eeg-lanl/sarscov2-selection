@@ -71,6 +71,8 @@ const std::string helpmessage =
 "        name of the file with time series data        \n"
 "    -p --param-file                                   \n"
 "        name of the file with parameters              \n"
+"    -e --end-time                                     \n"
+"        final time for filtering and simulating       \n"
 "    -x --addl-data-file                               \n"
 "        name of file with additional data             \n"
 "    -i --id                                           \n"
@@ -94,6 +96,9 @@ int main(int argc, char* argv[]) {
   // variables for additional data
   std::string addlDataFileName; // additional data
   bool addlDataProvided = false; // unless filename is given
+  double endTime = 0.0;
+  bool endTimeProvided = false; // unless -e option is used
+
 
   // get command line options
   int option_char;
@@ -114,10 +119,13 @@ int main(int argc, char* argv[]) {
       {"param-file",   required_argument, 0,  'p' },
       {"id",           required_argument, 0,  'i' },
       {"addl-data-file",required_argument, 0,  'x' },
+      {"end-time",     required_argument, 0,  'e' },
       {0,              0,                 0,   0  }
     };
 
-    option_char = getopt_long(argc, argv, "hs:t:J:M:D:G:m:F:d:p:i:x:", long_options, &option_index);
+    option_char = getopt_long(argc, argv, "hs:t:J:M:D:G:m:F:d:p:i:x:e:",
+        long_options, &option_index);
+
     if ( option_char == -1) {
       break;
     } // else ...
@@ -178,6 +186,11 @@ int main(int argc, char* argv[]) {
         paramFileName = optarg;
         break;
       }
+      case 'e': {
+        std::stringstream(optarg) >> endTime;
+        endTimeProvided = true;
+        break;
+      }
       case 'x': {
         addlDataFileName = optarg;
         addlDataProvided = true;
@@ -208,7 +221,7 @@ int main(int argc, char* argv[]) {
       break;
     }
     case Mode::SIMULATE: {
-      simulate_sars2mut_model(seed, threads, particles, paramFileName);
+      simulate_sars2mut_model(seed, threads, particles, paramFileName, endTime);
       // todo: options for choosing a model
       return 0;
       break;
@@ -216,7 +229,7 @@ int main(int argc, char* argv[]) {
     case Mode::FILTER: {
       filter_sars2mut_model(seed, threads, particles, traject, iter,
           duplicates, fixedParamMap, dataFileName, paramFileName, id,
-          addlDataProvided, addlDataFileName);
+          addlDataProvided, addlDataFileName, endTimeProvided, endTime);
       // todo: options for choosing a model
       return 0;
       break;

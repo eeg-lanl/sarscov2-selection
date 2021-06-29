@@ -272,3 +272,15 @@ std::pair<double, bool> get_event_time(const std::string & event, const Timeseri
   }
   return std::make_pair(0.0, false); // failure
 }
+
+
+void pruneTimeseries(Timeseries & txs, double tmax) {
+  auto it = txs.obs.begin();
+  while ( it != txs.obs.end() ) {
+    if ( it->t > tmax ) {
+      it = txs.obs.erase(it);
+    } else {
+      it++;
+    }
+  }
+}
