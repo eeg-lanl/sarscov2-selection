@@ -44,7 +44,7 @@ start=$SECONDS
     --data-file data/in/data.tsv \
     --param-file params.txt \
     --end-time $TMAX \
-    --id test \
+    --id myid_tmax=$TMAX \
     --addl-data-file addl-data.txt
 
 duration=$((SECONDS - start))
