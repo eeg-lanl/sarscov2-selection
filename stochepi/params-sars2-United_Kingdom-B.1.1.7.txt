@@ -1,0 +1,85 @@
+###### parameters for the SARS-CoV-2 variants model for the UK and B.1.1.7 ######
+
+## initial time
+t0 243 0 -inf inf
+
+## initial population size
+N0 6.65e7 0 0 inf
+
+## percentage initial recovered population
+xi 0.06 0 0 1
+
+## import rate of infected individuals
+lambda 0.0 0 0 inf
+
+## fraction of mutant imports
+q_mut 0.5 0 0 1
+
+## fraction of initial mutant fraction
+p_mut 3e-4 5e-5 0 1
+
+## fitness advantage of the mutant
+sigma 0.55 2e-3 -1 1
+
+## infection rate wild-type
+beta0 0.4 2e-3 0 1.5
+
+## infection rate during lockdown
+beta1 0.25 2e-3 0 1.5
+
+## infection rate after lockdown relaxation
+beta2 0.34 2e-3 0 1.5
+
+## infection rate after second lockdown
+beta3 0.18 2e-3 0 1.5
+
+## time start lock down
+t1 305 0.05 290 320
+
+## time relax lockdown
+t2 337 0.05 310 360
+
+## time second lockdown
+t3 369 0.05 340 380
+
+## time window to transition between lockdown conditions
+upsilon1 1.189 0 0.4 3.6
+
+## time window to transition between lockdown conditions
+upsilon2 1.189 0 0.4 3.6
+
+## time window to transition between lockdown conditions
+upsilon3 1.189 0 0.4 3.6
+
+## transition from exposed to infectious
+alpha 0.333 0 0 inf
+
+## recovery rate
+gamma 0.25 0 0 inf
+
+## hospitalization rate / severe infection
+nu 0.005 0 0 inf
+
+## death or recovery from severe infection
+omega 0.08 0 0 inf
+
+## probability of death after severe infection
+delta 0.3 0 0 1
+
+## mutation rate
+mu 0 0 0 1e-3
+
+## testing rate
+theta 0.033 0 0 inf
+
+## overdispersion of reporting
+theta_r 10 0 0 inf
+
+## overdispersion of sequencing
+eta_r 70 0.1 10 1000
+
+## overdispersion of deaths
+delta_r 90 0.1 10 1000
+
+## determines initial condition
+epsilon 3e-4 2e-5 1e-5 5e-3
