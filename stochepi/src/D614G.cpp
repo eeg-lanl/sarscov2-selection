@@ -237,10 +237,10 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
     double ll = 0.0; bool ok = true;
     // likelihood of sequence samples
     double dItot = s(sarsmodel::dIw).value() + s(sarsmodel::dIm).value();
-    int seq_total = obs.x[3];
+    int seq_total = obs.x[2];
     if ( dItot > 0 ) {
       double Fm = s(sarsmodel::dIm).value() / dItot;
-      int seq_mut = obs.x[2];
+      int seq_mut = obs.x[1];
       double r = par[sarsmodel::eta_r];
       auto [ll_seq, ok_seq] = beta_binomial_lpmf(seq_mut, seq_total, Fm, r); // k, n, p, r
       if ( ok_seq ) {
@@ -252,9 +252,9 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
       ok = false;
     } // else ok = true, ll = 0.0
     // likelihood of deaths
-    int deaths_cc = obs.c[1];
+    int deaths_cc = obs.c[0];
     if ( deaths_cc == UNCENSORED_CODE ) {
-      int deaths = obs.x[1];
+      int deaths = obs.x[0];
       double dD = std::max(0.0, s(sarsmodel::dD).value());
       double r = par[sarsmodel::delta_r];
       double delta = par[sarsmodel::delta];
