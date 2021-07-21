@@ -1,0 +1,85 @@
+######## parameters for the D614G model for the NL #######
+
+## initial time
+t0 54 0 -inf inf
+
+## initial population size
+N0 1.74e7 0 0 inf
+
+## percentage initial recovered population
+xi 0.0 0 0 1
+
+## import rate of infected individuals
+lambda 0.0 0 0 inf
+
+## fraction of mutant imports
+q_mut 1.0 0 0 1
+
+## fraction of initial mutant fraction
+p_mut 0.314 1e-2 0 1
+
+## fitness advantage of the mutant
+sigma 0.27 2e-3 -1 1
+
+## infection rate wild-type
+beta0 0.825 2e-3 0 1.5
+
+## infection rate during lockdown
+beta1 0.123 2e-3 0 1.5
+
+## infection rate after lockdown relaxation
+beta2 0.335 2e-3 0 1.5
+
+## unused forth infection rate parameter
+beta3 0.0 0 0 inf
+
+## time start lock down
+t1 82 0.05 60 100
+
+## time relax lockdown
+t2 182 0.05 160 200
+
+## unused third break-point
+t3 1e3 0 -inf inf
+
+## time window to transition between lockdown conditions
+upsilon1 1.189 0 0.4 3.6
+
+## time window to transition between lockdown conditions
+upsilon2 1.189 0 0.4 3.6
+
+## unused third uptake parameter
+upsilon3 1.189 0 0 inf
+
+## transition from exposed to infectious
+alpha 0.333 0 0 inf
+
+## recovery rate
+gamma 0.25 0 0 inf
+
+## hospitalization rate / severe infection
+nu 0.005 0 0 inf
+
+## death or recovery from severe infection
+omega 0.08 0 0 inf
+
+## probability of death after severe infection
+delta 0.3 0 0 1
+
+## mutation rate
+mu 1e-5 0 0 1
+
+## testing rate
+theta 0.033 0 0 inf
+
+## overdispersion of reporting
+theta_r 10 0 0 inf
+
+## overdispersion of sequencing
+eta_r 73 0.1 10 1000
+
+## overdispersion of deaths
+delta_r 108 0.1 10 1000
+
+## determines initial condition
+epsilon 4.61e-6 1e-6 5e-7 1e-4
