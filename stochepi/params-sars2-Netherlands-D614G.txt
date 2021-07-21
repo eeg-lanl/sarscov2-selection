@@ -33,6 +33,9 @@ beta2 0.335 2e-3 0 1.5
 ## unused forth infection rate parameter
 beta3 0.0 0 0 inf
 
+## unused 5th infection rate
+beta4 0.0 0 0 inf
+
 ## time start lock down
 t1 82 0.05 60 100
 
@@ -42,6 +45,9 @@ t2 182 0.05 160 200
 ## unused third break-point
 t3 1e3 0 -inf inf
 
+## unused 4th breakpoint
+t4 1e3 0 -inf inf
+
 ## time window to transition between lockdown conditions
 upsilon1 1.189 0 0.4 3.6
 
@@ -50,6 +56,9 @@ upsilon2 1.189 0 0.4 3.6
 
 ## unused third uptake parameter
 upsilon3 1.189 0 0 inf
+
+## time window to transition between lockdown conditions
+upsilon4 1.189 0 0 inf
 
 ## transition from exposed to infectious
 alpha 0.333 0 0 inf

@@ -30,12 +30,15 @@ namespace sarsmodel {
     beta1, // infection rate 1
     beta2, // infection rate 2
     beta3, // infection rate 3
+    beta4, // infection rate 4
     t1, // first breakpoint
     t2, // snd breakpoint
-    t3, // trd breakpoint
+    t3, // 3rd breakpoint
+    t4, // 4th breakpoint
     upsilon1, // time window to transition between conditions 0 and 1
     upsilon2, // time window to transition between conditions 1 and 2
     upsilon3, // time window to transition between conditions 2 and 3
+    upsilon4, // time window to transition between conditions 2 and 3
     alpha, // transition from exposed to infectious
     gamma, // recovery rate
     nu, // hospitalization rate / severe infection

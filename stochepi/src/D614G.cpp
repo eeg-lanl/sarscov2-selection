@@ -27,25 +27,6 @@ void simulate_sars2mut_model(unsigned long seed, int threads, int J,
   Parameters par(sarsmodel::NUM_PARAMETERS);
   load_param_specs<sarsmodel::ParSymbol>(par, sarsmodel::parNames, parSpecsList);
 
-  // import splines
-  std::string linfunFileNameFreq = "Fm_lin_fun.txt"; // FIXME!
-  splines::PiecewiseLinFunc plfun_freq = splines::import_piecewise_lin_fun(linfunFileNameFreq);
-  // replace default []()
-  sarsmodel::import_freq_mut = [plfun_freq](double t, const Parameters & par) -> double {
-    return plfun_freq(t);
-  };
-
-  std::string linfunFileNameRate = "I_lin_fun.txt"; // FIXME!
-  splines::PiecewiseLinFunc plfun_rate = splines::import_piecewise_lin_fun(linfunFileNameRate);
-  // replace default []()
-  sarsmodel::import_rate = [plfun_rate](double t, const Parameters & par) -> double {
-    // set closing time of borders
-    double t_close = 355; // FIXME!
-    // scale given rates spline with parameter lambda
-    return ( t < t_close ? plfun_rate(t) * par[sarsmodel::lambda] : 0.0);
-  };
-
-
   // overdispersion of intrinsic noise
   par[IDX_SIGMA_OD] = 0.02;
 
@@ -143,11 +124,11 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
       splines::PiecewiseLinFunc plfun_rate = funlist.back();
       // replace default []()
       sarsmodel::import_rate = [plfun_rate](double t, const Parameters & par) -> double {
-        // set closing time of borders
-        double t_close = 355; // HARDCODED CLOSING DATE: FIXME!
         // scale given rates spline with parameter lambda
-        return ( t < t_close ? plfun_rate(t) * par[sarsmodel::lambda] : 0.0);
+        return plfun_rate(t) * par[sarsmodel::lambda];
       };
+
+      std::cout << "Imported data for external FOI..." << std::endl;
     } else {
       throw std::runtime_error("unable to import external FOI functions" + RIGHT_HERE);
     }
@@ -176,19 +157,23 @@ void filter_sars2mut_model(unsigned long seed, int threads, int J, int G, int M,
   double t1 = par[sarsmodel::t1];
   double t2 = par[sarsmodel::t2];
   double t3 = par[sarsmodel::t3];
+  double t4 = par[sarsmodel::t4];
   // only mutate when infection rate is relavant
   par[sarsmodel::beta0].setRWRule([=](double t){return t < t1+u_beta;});
   par[sarsmodel::beta1].setRWRule([=](double t){return t > t1-u_beta && t < t2+u_beta;});
   par[sarsmodel::beta2].setRWRule([=](double t){return t > t2-u_beta && t < t3+u_beta;});
-  par[sarsmodel::beta3].setRWRule([=](double t){return t > t3-u_beta;});
+  par[sarsmodel::beta3].setRWRule([=](double t){return t > t3-u_beta && t < t4+u_beta;});
+  par[sarsmodel::beta4].setRWRule([=](double t){return t > t4-u_beta;});
   // only mutate around the break points
   par[sarsmodel::t1].setRWRule([=](double t){return t > t1 - u_t && t < t1 + u_t;});
   par[sarsmodel::t2].setRWRule([=](double t){return t > t2 - u_t && t < t2 + u_t;});
   par[sarsmodel::t3].setRWRule([=](double t){return t > t3 - u_t && t < t3 + u_t;});
+  par[sarsmodel::t4].setRWRule([=](double t){return t > t4 - u_t && t < t4 + u_t;});
   // same for uptake
   par[sarsmodel::upsilon1].setRWRule([=](double t){return t > t1 - u_t && t < t1 + u_t;});
   par[sarsmodel::upsilon2].setRWRule([=](double t){return t > t2 - u_t && t < t2 + u_t;});
   par[sarsmodel::upsilon3].setRWRule([=](double t){return t > t3 - u_t && t < t3 + u_t;});
+  par[sarsmodel::upsilon4].setRWRule([=](double t){return t > t4 - u_t && t < t4 + u_t;});
   // only mutate at time t0
   par[sarsmodel::epsilon].setRWRule([=](double t){return t <= t0;});
   par[sarsmodel::p_mut].setRWRule([=](double t){return t <= t0;});

@@ -33,14 +33,20 @@ beta2 0.365 2e-3 0 1.5
 ## infection rate after second lockdown
 beta3 0.201 2e-3 0 1.5
 
+## infection rate after 4th breakpoint
+beta4 0.201 2e-3 0 1.5
+
 ## time start lock down
 t1 298 0.05 280 320
 
 ## time relax lockdown
-t2 336 0.05 320 360
+t2 336 0.05 320 350
 
 ## time second lockdown
-t3 365 0.05 340 380
+t3 355 0.05 330 370
+
+## 4th breakpoint
+t4 400 0.05 380 420
 
 ## time window to transition between lockdown conditions
 upsilon1 1.189 0 0.4 3.6
@@ -50,6 +56,9 @@ upsilon2 1.189 0 0.4 3.6
 
 ## time window to transition between lockdown conditions
 upsilon3 1.189 0 0.4 3.6
+
+## time window to transition between lockdown conditions
+upsilon4 1.189 0 0.4 3.6
 
 ## transition from exposed to infectious
 alpha 0.333 0 0 inf

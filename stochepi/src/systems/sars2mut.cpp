@@ -24,12 +24,14 @@ double sarsmodel::infection_rate(const State & s, const Parameters & par) {
   double u1 = par[upsilon1];
   double u2 = par[upsilon2];
   double u3 = par[upsilon3];
+  double u4 = par[upsilon4];
   // infection rates
   double b0 = par[beta0] * (1 - Hv(t - par[t1], u1));
   double b1 = par[beta1] * Hv(t-par[t1], u1) * (1 - Hv(t-par[t2], u2));
   double b2 = par[beta2] * Hv(t-par[t2], u2) * (1 - Hv(t-par[t3], u3));
-  double b3 = par[beta3] * Hv(t-par[t3], u3);
-  return b0 + b1 + b2 + b3;
+  double b3 = par[beta3] * Hv(t-par[t3], u3) * (1 - Hv(t-par[t4], u4));
+  double b4 = par[beta4] * Hv(t-par[t4], u4);
+  return b0 + b1 + b2 + b3 + b4;
 }
 
 double pop_size(const State & s) {
@@ -104,12 +106,15 @@ const std::map<ParSymbol, std::string> sarsmodel::parNames = {
   std::make_pair(beta1, "beta1"),
   std::make_pair(beta2, "beta2"),
   std::make_pair(beta3, "beta3"),
+  std::make_pair(beta4, "beta4"),
   std::make_pair(t1, "t1"),
   std::make_pair(t2, "t2"),
   std::make_pair(t3, "t3"),
+  std::make_pair(t4, "t4"),
   std::make_pair(upsilon1, "upsilon1"),
   std::make_pair(upsilon2, "upsilon2"),
   std::make_pair(upsilon3, "upsilon3"),
+  std::make_pair(upsilon4, "upsilon4"),
   std::make_pair(alpha, "alpha"),
   std::make_pair(sarsmodel::gamma, "gamma"), // gamma is ambiguous
   std::make_pair(nu, "nu"),
