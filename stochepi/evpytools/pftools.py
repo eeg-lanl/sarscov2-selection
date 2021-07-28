@@ -6,6 +6,29 @@ import warnings
 from evpytools import auxiliary as aux
 
 
+def import_filter_data(filename):
+    """
+    import a data file used for SMC
+    """
+    with open(filename) as f:
+        table = [row.split() for row in f.read().split('\n') if row != '']
+    ## build list of dicts
+    data_dicts = [
+        {
+            "region" : row[0],
+            "t" : int(row[1]),
+            "event" : row[2],
+            "deaths" : int(row[3]),
+            "deaths_cc" : int(row[4]),
+            "Nmut" : int(row[5]),
+            "Ntot" : int(row[7]),
+        } 
+        for row in table
+    ]
+    return data_dicts
+
+
+
 def extract_pfilter_data(xmlfilename, idx=-1, parnames=None):
     """
     Extract data from xml file produced by estavoir (pfilter mode)
