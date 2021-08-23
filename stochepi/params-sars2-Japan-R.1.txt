@@ -1,49 +1,49 @@
-###### parameters for the SARS-CoV-2 variants model for the NL and B.1.351 ######
+###### parameters for the SARS-CoV-2 variants model for the Japan and R.1 ######
 
 ## initial time
-t0 334 0 -inf inf
+t0 327 0 -inf inf
 
 ## initial population size
-N0 1.74e7 0 0 inf
+N0 1.263e8 0 0 inf
 
 ## percentage initial recovered population (TODO)
 xi 0.1 0 0 1
 
 ## import rate of infected individuals
-lambda 1e-7 1e-8 0 inf
+lambda 0 0 0 inf
 
 ## fraction of mutant imports
 q_mut 1.0 0 0 1
 
 ## initial mutant fraction
-p_mut 0 0 0 1
+p_mut 2e-3 1e-4 0 1
 
 ## fitness advantage of the mutant
-sigma 0.0 2e-3 -1 1
+sigma 0.43 2e-3 -1 1
 
 ## infection rate wild-type
-beta0 0.33 2e-3 0 1.5
+beta0 0.32 2e-3 0 1.5
 
 ## infection rate during lockdown
-beta1 0.24 2e-3 0 1.5
+beta1 0.2 2e-3 0 1.5
 
 ## infection rate after lockdown relaxation
-beta2 0.26 2e-3 0 1.5
+beta2 0.32 2e-3 0 1.5
 
 ## infection rate after second lockdown
-beta3 0.25 2e-3 0 1.5
+beta3 0.0 0 0 inf
 
 ## unused 5th infection rate
 beta4 0.0 0 0 inf
 
-## time start lock down
-t1 360 0.05 355 383
+## first breakpoint
+t1 390 0.05 360 420
 
-## time relax lockdown
-t2 397 0.05 383 411
+## second breakpoint
+t2 1e3 0 -inf inf
 
-## time second lockdown
-t3 418 0.05 411 425
+## unused 3th breakpoint
+t3 1e3 0 -inf inf
 
 ## unused 4th breakpoint
 t4 1e3 0 -inf inf
@@ -55,7 +55,7 @@ upsilon1 1.189 0 0.4 3.6
 upsilon2 1.189 0 0.4 3.6
 
 ## time window to transition between lockdown conditions
-upsilon3 1.189 0 0.4 3.6
+upsilon3 1.189 0 0 inf
 
 ## time window to transition between lockdown conditions
 upsilon4 1.189 0 0 inf
@@ -91,4 +91,4 @@ eta_r 72 0.1 10 1000
 delta_r 93 0.1 10 1000
 
 ## determines initial condition
-epsilon 6e-3 1e-4 1e-5 1e-2
+epsilon 4e-4 1e-5 1e-5 1e-2
