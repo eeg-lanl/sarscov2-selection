@@ -28,7 +28,7 @@ beta0 0.32 2e-3 0 1.5
 beta1 0.2 2e-3 0 1.5
 
 ## infection rate after lockdown relaxation
-beta2 0.32 2e-3 0 1.5
+beta2 0.0 0 0 inf
 
 ## infection rate after second lockdown
 beta3 0.0 0 0 inf

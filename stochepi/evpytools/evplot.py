@@ -3,8 +3,18 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import numpy as np
 import scipy.stats as sts
+from matplotlib.transforms import blended_transform_factory
 
 from evpytools import auxiliary as aux
+
+def hybrid_trans(ax):
+    """
+    This function returns a blended/hybrid
+    transformation w.r.t. subplot ax.
+    x-coord: use the data for positioning
+    y-coord: use relative position w.r.t y-axis
+    """
+    return blended_transform_factory(ax.transData, ax.transAxes)
 
 
 def y_fmt(x, y):

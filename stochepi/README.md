@@ -47,4 +47,13 @@ zero after an observation.
 
 ## Interpreting results with jupyter notebooks
 
-*TODO*
+In the `notebooks` folder, the following jupyter notebook can be found:
+
+* `ParseData.ipynb` prepare input data files for SMC.
+* `FigSMCFitSingle.ipynb` check the output of SMC for a single variant and region, and look at diagnostics and parameter estimates.
+* `ExtractProfileLik.ipynb` extract the log-likelihood from a batch of SMC fits to construct a profile likelihood.
+* `FigProfLik.ipynb` Combine profile likelihoods from mutliple regions and variants into a single figure.
+* `ExtractProfLikeTmax.ipynb` again, extract log-likelihoods, but now for multiple time horizons.
+* `FigSMCFitTmaxAnalysisMultiRegion.ipynb` make a figure with the SMC fit, combined with the profile likelihoods for multiple time horizons.
+* `ReffAnalysis.ipynb` Compute the effective reproduction number as a function of time. This notebook can also be used to compute the external force of infection for the migration model
+* `CompareModels.ipynb` Analysis of how different models (population genetics vs. epidemic model) lead to different estimates of the selective advantage $s$.
