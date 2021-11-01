@@ -32,7 +32,7 @@ Data has to be given in a tab-separated-values file (e.g.`data.tsv`), and
 the file name has to be given with the `-d` option.
 The data file must be organized as follows:
 ```
-ID  time  deaths  deaths_cc var_seq var_seq_cc  total_seq total_seq_cc  event
+ID  time  event  deaths  deaths_cc var_seq var_seq_cc  total_seq total_seq_cc
 ```
 where `ID` is the name of the region, `time` is the time of the observation,
 `deaths` is the number of deaths between this and the previous observation,
