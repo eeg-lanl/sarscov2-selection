@@ -35,10 +35,10 @@ for(u in upl[2:length(upl)]){
 
 #Hopkins covid epi data
 dth = read.csv("./COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", header=T)
-dth1 = aggregate(dth[,5:410], by=list(dth$Country.Region), FUN=sum)
+dth1 = aggregate(dth[,5:410], by=list(dth$Country.Region), FUN=sum) #these ranges need to be adjusted depending on temporal range of data
 rownames(dth1) = dth1$Group.1
-dth1 = as.data.frame(t(apply(dth1, 1, function(x)(diff(c(0, as.numeric(x[2:407])))))))
-names(dth1) = names(dth)[5:410]
+dth1 = as.data.frame(t(apply(dth1, 1, function(x)(diff(c(0, as.numeric(x[2:407]))))))) #these ranges need to be adjusted depending on temporal range of data
+names(dth1) = names(dth)[5:410]#these ranges need to be adjusted depending on temporal range of data
 dth = melt(t(dth1))
 dth$date = as.Date(dth$Var1, format="X%m.%d.%y")
 dth$Var1 = NULL
@@ -46,10 +46,10 @@ dth$Var2 = countrycode(as.character(dth$Var2), origin = "country.name", destinat
 names(dth)[1:2] = c("country", "deaths")
 
 cas = read.csv("./COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", header=T)
-cas1 = aggregate(cas[,5:410], by=list(cas$Country.Region), FUN=sum)
+cas1 = aggregate(cas[,5:410], by=list(cas$Country.Region), FUN=sum)#these ranges need to be adjusted depending on temporal range of data
 rownames(cas1) = cas1$Group.1
-cas1 = as.data.frame(t(apply(cas1, 1, function(x)(diff(c(0, as.numeric(x[2:407])))))))
-names(cas1) = names(cas)[5:410]
+cas1 = as.data.frame(t(apply(cas1, 1, function(x)(diff(c(0, as.numeric(x[2:407])))))))#these ranges need to be adjusted depending on temporal range of data
+names(cas1) = names(cas)[5:410]#these ranges need to be adjusted depending on temporal range of data
 cas = melt(t(cas1))
 cas$date = as.Date(cas$Var1, format="X%m.%d.%y")
 cas$Var1 = NULL
@@ -57,10 +57,10 @@ cas$Var2 = countrycode(as.character(cas$Var2), origin = "country.name", destinat
 names(cas)[1:2] = c("country", "cases")
 
 rec = read.csv("./COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv", header=T)
-rec1 = aggregate(rec[,5:410], by=list(rec$Country.Region), FUN=sum)
+rec1 = aggregate(rec[,5:410], by=list(rec$Country.Region), FUN=sum)#these ranges need to be adjusted depending on temporal range of data
 rownames(rec1) = rec1$Group.1
-rec1 = as.data.frame(t(apply(rec1, 1, function(x)(diff(c(0, as.numeric(x[2:407])))))))
-names(rec1) = names(rec)[5:410]
+rec1 = as.data.frame(t(apply(rec1, 1, function(x)(diff(c(0, as.numeric(x[2:407])))))))#these ranges need to be adjusted depending on temporal range of data
+names(rec1) = names(rec)[5:410]#these ranges need to be adjusted depending on temporal range of data
 rec = melt(t(rec1))
 rec$date = as.Date(rec$Var1, format="X%m.%d.%y")
 rec$Var1 = NULL
