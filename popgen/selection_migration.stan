@@ -1,5 +1,6 @@
 /*
  * Population genetics model with selection and migration.
+ * One focal variant versus all others.
  * Hierarchical across countries.
  * Transformed to logit scale.
  */
@@ -19,7 +20,7 @@ functions {
         }
     }
   
-    // returns logit of the mutant probability
+    // returns logit of the variant probability
     vector get_logit_prob(int N, int[] id, int[] day, vector logr0, vector logsigma, vector logmu) {
         vector[N] logit_theta;
         real logsigma_i;
@@ -57,8 +58,8 @@ parameters {
     vector[omit_m1 ? nid-1 : nid] logmu_raw; // log(m/(m-1)) = logit(m)
   
     // for normal prior on s 
-    real s_prior_mean;
-    real<lower=0> s_prior_sd;
+    real s_mean;
+    real<lower=0> s_sd;
 }
 
 transformed parameters {
@@ -84,7 +85,7 @@ model {
  
     // get the binomial probability on each day
     vector[N] logit_theta = get_logit_prob(N, id, day, logr0, logsigma, logmu);
-    // run the actual model
+    // put into the likelihood
     num_new ~ binomial_logit(num_all, logit_theta);
 
     /*** priors ***/
@@ -102,9 +103,9 @@ model {
     }
 
     // selection from a normal distribution, estimated in the hierarchical model
-    s ~ normal(s_prior_mean, s_prior_sd);
-    s_prior_mean ~ normal(0, 0.5);      // centered on 0 for no selection
-    s_prior_sd ~ normal(0.25, 0.25);    // just seems reasonable
+    s ~ normal(s_mean, s_sd);
+    s_mean ~ normal(0, 0.5);      // centered on 0 for no selection
+    s_sd ~ normal(0.25, 0.25);    // just seems reasonable
 
     /*** jacobian corrections ***/
 
@@ -122,22 +123,27 @@ model {
 generated quantities {
     vector[nid] mgen;
     vector[nid] sgen;
-    real sgen_prior_mean;
-    real sgen_prior_sd;
+    real sgen_mean;
+    real sgen_sd;
     real gentime = -1;
     vector[N] theta;
 
     /*** convert to units of per generation ***/
+
     while (gentime < 0) {
         // chosen so mean serial interval = 4-7.8 days is plausible (and not negative)
         gentime = normal_rng(5.9, 1.15);
     }
-    mgen = m * gentime;
-    sgen = s * gentime;
-    sgen_prior_mean = s_prior_mean * gentime;
-    sgen_prior_sd = s_prior_sd * gentime;
+
+    for (i in 1:nid) {
+        mgen[i] = pow(1 + m[i], gentime) - 1;
+        sgen[i] = pow(1 + s[i], gentime) - 1;
+    }
+    sgen_mean = pow(1 + s_mean, gentime) - 1;
+    sgen_sd   = pow(1 + s_sd,   gentime) - 1;
 
     /*** predicted probabilities ***/
+
     theta = inv_logit(get_logit_prob(N, id, day, logr0, logsigma, logmu));
 }
 
