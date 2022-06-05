@@ -1,10 +1,18 @@
 # sarscov2-selection
 
-This repository contains code for the publication
-> *Estimating the strength of selection for new SARS-CoV-2 variants*
-> Christiaan H. van Dorp, Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
-> medRxiv preprint, doi: [10.1101/2021.03.29.21254233](https://doi.org/10.1101/2021.03.29.21254233)
-> (now in press at *Nature Communications*)
+This repository contains code for two publications:
+
+  * Christiaan H. van Dorp, C.H., Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
+    (in review).
+    **Global estimates of the fitness advantage of SARS-CoV-2 variant Omicron**.
+    - in the `renewal/` directory
+
+  * Christiaan H. van Dorp, C.H., Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
+    2021.
+    **Estimating the strength of selection for new SARS-CoV-2 variants**.
+    *Nature Communications* 12:7239.
+    doi: [10.1038/s41467-021-27369-3](http://dx.doi.org/10.1038/s41467-021-27369-3)
+    - in the other directories
 
 Info on using the code is provided in the readme files in each subdirectory.
 
