@@ -2,12 +2,12 @@
 
 This repository contains code for two publications:
 
-  * Christiaan H. van Dorp, C.H., Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
+  * Christiaan H. van Dorp, Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
     (in review).
     **Global estimates of the fitness advantage of SARS-CoV-2 variant Omicron**.
     - in the `renewal/` directory
 
-  * Christiaan H. van Dorp, C.H., Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
+  * Christiaan H. van Dorp, Emma E. Goldberg, Nick Hengartner, Ruian Ke, and Ethan O. Romero-Severson.
     2021.
     **Estimating the strength of selection for new SARS-CoV-2 variants**.
     *Nature Communications* 12:7239.
